@@ -1,0 +1,20 @@
+# Node rules:
+## Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+node_modules
+
+# Book build output
+_book
+
+# eBook build output
+*.epub
+*.mobi
+*.pdf
+nohup.out
+.idea/
+
+# 临时目录
+tmp/
+
+person.md
