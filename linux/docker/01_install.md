@@ -1,14 +1,30 @@
 # docker 安装
 
 ## centos install
-  
+
+    $ yum update -y
+    $ yum upgrade -y
     $ yum install -y yum-utils
-    $ yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    
+    (download.docker.com 慢 可以使用 mirrors.aliyun.com)
+    # $ yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    $ yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
     $ yum install -y docker-ce docker-ce-cli containerd.io
     $ systemctl start docker
     $ systemctl enable docker.service
     
     $ pip3 install docker-compose
+    
+## 配置镜像代理
+
+    $ mkdir -p /etc/docker
+    
+    $ tee /etc/docker/daemon.json <<-'EOF'
+    {
+        "registry-mirrors": ["https://5y127n6j.mirror.aliyuncs.com"]
+    }
+    EOF
+    
 
 ## docker 容器中设置中文语言包的问题
 

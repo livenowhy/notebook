@@ -19,8 +19,6 @@
 
     $ ssh-keygen -t rsa -b 4096 -C "livenowhy@hotmail.com"
     $ ssh -T git@github.com    (TEST)
-    
-    
 
   `b` 配置 sshd
 
