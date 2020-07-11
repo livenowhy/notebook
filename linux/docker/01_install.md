@@ -59,4 +59,6 @@
 
 ## 登陆阿里运仓库
 
+    $ docker login --username=hi35608059@aliyun.com registry.cn-zhangjiakou.aliyuncs.com
+
     $ docker login --username=hi35608059@aliyun.com registry.cn-hangzhou.aliyuncs.com

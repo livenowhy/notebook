@@ -20,7 +20,7 @@ pull:
 	docker pull ${PREFIX}/${IMAGE_NAME}:${TAG}
 
 run:
-	docker run --name=${CONTAINER_NAME} -d -p 9999:4000 -p 35729:35729 registry.cn-zhangjiakou.aliyuncs.com/livenowhy/node:notebook
+	docker run --name=${CONTAINER_NAME} -d -p 4000:4000 -p 35729:35729 registry.cn-zhangjiakou.aliyuncs.com/livenowhy/node:notebook
 
 # 测试使用 node:gitbook 镜像, 使用挂载 文件方式
 dev:
