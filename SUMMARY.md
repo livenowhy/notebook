@@ -16,6 +16,7 @@
   * [centos 基础配置](linux/settings/001_centos_base_setting.md)
   * [centos 环境配置](linux/settings/002_env.md)
   * [rsync 文件同步服务配置](linux/settings/003_rsync.md)
+  * [公私钥对管理](linux/settings/004_rsa_key.md)
 
 * linux 命令
   * [文本操作命令](linux/command/grep.md)
