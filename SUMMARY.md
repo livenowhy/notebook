@@ -20,6 +20,12 @@
 
 * linux 命令
   * [文本操作命令](linux/command/grep.md)
+  
+* git 相关
+  * [基本操作](linux/git/01_init.md)
+  * [Git 服务器搭建](linux/git/02_create_service.md)
+  * [命令合集](linux/git/03_command.md)
+  * [ssh配置](linux/git/04_ssh.md)
 
 * 开发环境搭建
   * [Android 开发环境](linux/soft/001_android_sdk.md)
@@ -59,3 +65,11 @@
   
 * flask
   * [flask 其他设置](python/flask/001_other.md)
+  
+* 爬虫相关
+  * [scrapy 基础](spider/001_base.md)
+  * [Fiddler 抓包](spider/002_fiddler.md)
+  * [redspider](spider/003_redspider.md)
+  * [BloomFilter](spider/004_bloom_filter.md)
+  * [selenium](spider/005_selenium.md)
+  
