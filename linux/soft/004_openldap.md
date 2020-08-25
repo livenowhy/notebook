@@ -280,3 +280,8 @@
     
     重装:
     $ yum reinstall openldap openldap-servers openldap-clients
+    
+    
+### 添加用户
+    
+    $ yum -y install migrationtools
