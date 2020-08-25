@@ -6,7 +6,7 @@
   `1` 安装LDAP服务器和客户端
     
     $ yum install -y openldap openldap-clients openldap-servers
-      
+
   `2` 设置 DB Cache
     
     复制一个默认配置到指定目录下,并授权,这一步一定要做,然后再启动服务,不然生产密码时会报错
@@ -26,7 +26,7 @@
   `1` 生成管理员密码,记录下这个密码,后面需要用到
     
     $ slappasswd -s 123456
-    {SSHA}LcCle9uoSsfgv6Kh6saQROcaoEJD2F2p
+    {SSHA}aQvapeffbnE6jS2qzOsCwONSP3cupUog
     
   `2` 新增修改密码文件, ldif为后缀, 文件名随意, 不要在/etc/openldap/slapd.d/目录下创建类似文件
   
@@ -35,7 +35,7 @@
     dn: olcDatabase={0}config,cn=config
     changetype: modify
     add: olcRootPW
-    olcRootPW: {SSHA}LcCle9uoSsfgv6Kh6saQROcaoEJD2F2p
+    olcRootPW: {SSHA}aQvapeffbnE6jS2qzOsCwONSP3cupUog
     
     # 这里解释一下这个文件的内容：
     # 第一行执行配置文件，这里就表示指定为 cn=config/olcDatabase={0}config 文件。你到/etc/openldap/slapd.d/目录下就能找到此文件
@@ -75,45 +75,51 @@
     $ ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/pmi.ldif
     
     # $ ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/core.ldif
-    
- 
    
   `4` 修改域名
   
     # 新增 changedomain.ldif, 这里我自定义的域名为 livenowhy.com，管理员用户账号为 admin。
     # 如果要修改, 则修改文件中相应的 dc=livenowhy,dc=com为自己的域名
     
-    $ vim changedomain.ldif
+    $ vim changedomain_01.ldif
     dn: olcDatabase={1}monitor,cn=config
     changetype: modify
     replace: olcAccess
     olcAccess: {0}to * by dn.base="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" read by dn.base="cn=admin,dc=livenowhy,dc=com" read by * none
     
+    $ vim changedomain_02.ldif
     dn: olcDatabase={2}hdb,cn=config
     changetype: modify
     replace: olcSuffix
     olcSuffix: dc=livenowhy,dc=com
-
+    
+    $ vim changedomain_03.ldif
     dn: olcDatabase={2}hdb,cn=config
     changetype: modify
     replace: olcRootDN
     olcRootDN: cn=admin,dc=livenowhy,dc=com
      
+    $ vim changedomain_04.ldif
     dn: olcDatabase={2}hdb,cn=config
     changetype: modify
     replace: olcRootPW
-    olcRootPW: {SSHA}LcCle9uoSsfgv6Kh6saQROcaoEJD2F2p
-
+    olcRootPW: {SSHA}aQvapeffbnE6jS2qzOsCwONSP3cupUog
+    
+    $ vim changedomain_05.ldif
     dn: olcDatabase={2}hdb,cn=config
     changetype: modify
     add: olcAccess
     olcAccess: {0}to attrs=userPassword,shadowLastChange by
-    dn="cn=admin,dc=livenowhy,dc=com" write by anonymous auth by self write by * none
+      dn="cn=admin,dc=livenowhy,dc=com" write by anonymous auth by self write by * none
     olcAccess: {1}to dn.base="" by * read
     olcAccess: {2}to * by dn="cn=admin,dc=livenowhy,dc=com" write by * read
-   
+
     # 执行命令, 修改配置, 以上注意 olcAccess 该换行时要换行
-    $ ldapmodify -Y EXTERNAL -H ldapi:/// -f changedomain.ldif
+    $ ldapmodify -Y EXTERNAL -H ldapi:/// -f changedomain_01.ldif
+    $ ldapmodify -Y EXTERNAL -H ldapi:/// -f changedomain_02.ldif
+    $ ldapmodify -Y EXTERNAL -H ldapi:/// -f changedomain_03.ldif
+    $ ldapmodify -Y EXTERNAL -H ldapi:/// -f changedomain_04.ldif
+    $ ldapadd -Q -Y EXTERNAL -H ldapi:/// -f changedomain_05.ldif
     
   `5` 启用 memberof 功能
     
@@ -145,8 +151,7 @@
     olcmoduleload: refint
     
     c、新增 refint2.ldif 文件
-    vim refint2.ldif
-    -------------------------------------------------------------
+    $ vim refint2.ldif
     dn: olcOverlay=refint,olcDatabase={2}hdb,cn=config
     objectClass: olcConfig
     objectClass: olcOverlayConfig
@@ -164,38 +169,41 @@
     到此,配置修改完了,在上述基础上,我们来创建一个叫做 livenowhy company 的组织,
     并在其下创建一个 admin 的组织角色(该组织角色内的用户具有管理整个 LDAP 的权限)和 People 和 Group 两个组织单元:  
     # 新增配置文件
-    $ vim base.ldif
-    
+    $ vim base_01.ldif
     dn: dc=livenowhy,dc=com
     objectClass: top
     objectClass: dcObject
     objectClass: organization
     o: livenowhy Company
     dc: livenowhy
-     
+    
+    $ vim base_02.ldif
     dn: cn=admin,dc=livenowhy,dc=com
     objectClass: organizationalRole
     cn: admin
- 
+    
+    $ vim base_03.ldif
     dn: ou=People,dc=livenowhy,dc=com
     objectClass: organizationalUnit
     ou: People
- 
+    
+    $ vim base_04.ldif
     dn: ou=Group,dc=livenowhy,dc=com
     objectClass: organizationalRole
     cn: Group
     
     # 执行命令，添加配置, 这里要注意修改域名为自己配置的域名，然后需要输入上面我们生成的密码
     
-    $ ldapadd -x -D cn=admin,dc=livenowhy,dc=com -W -f base.ldif
+    $ ldapadd -x -D cn=admin,dc=livenowhy,dc=com -W -f base_01.ldif
+    $ ldapadd -x -D cn=admin,dc=livenowhy,dc=com -W -f base_02.ldif
+    $ ldapadd -x -D cn=admin,dc=livenowhy,dc=com -W -f base_03.ldif
+    $ ldapadd -x -D cn=admin,dc=livenowhy,dc=com -W -f base_04.ldif
     通过以上的所有步骤,我们就设置好了一个 LDAP 目录树:
     其中基准 dc=livenowhy,dc=com 是该树的根节点，
     其下有一个管理域 cn=admin,dc=livenowhy,dc=com 和两个组织单元 ou=People,dc=livenowhy,dc=com 及 ou=Group,dc=livenowhy,dc=com。
     
-    
-    测试配置文件, 末尾显示 configfile testing successed 说明成功
-    
     $ slaptest -u
+    测试配置文件, 末尾显示 configfile testing successed 说明成功
     
 
 ## 安装 phpldapadmin
@@ -254,6 +262,21 @@
   `6` 登录 phpldapadmin 界面
       
     用户名: admin, 密码: 123456
+    参考: https://blog.csdn.net/weixin_41004350/article/details/89521170
+    
+    
+### 异常处理
 
-
-    参考: https://blog.csdn.net/weixin_41004350/article/details/89521170    
+`1` slapd main: TLS init def ctx failed: -1; Failed to start OpenLDAP Server Daemon.
+    
+    通过命令检测过程: 
+    $ slapd -d 1
+    日志输出 ... ...
+    
+    重新创建证书,路径不存在则手动创建:
+    $ mkdir -p /etc/openldap/certs
+    $ bash /usr/libexec/openldap/create-certdb.sh
+    $ bash /usr/libexec/openldap/generate-server-cert.sh
+    
+    重装:
+    $ yum reinstall openldap openldap-servers openldap-clients
