@@ -19,7 +19,7 @@ clean:
 pull:
 	docker pull ${PREFIX}/${IMAGE_NAME}:${TAG}
 
-run: pull
+run: rm pull
 	docker run --name=${CONTAINER_NAME} -d -p 4000:4000 -p 35729:35729 registry.cn-zhangjiakou.aliyuncs.com/livenowhy/node:notebook
 
 # 测试使用 node:gitbook 镜像, 使用挂载 文件方式
