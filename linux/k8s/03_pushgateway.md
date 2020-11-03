@@ -1,7 +1,6 @@
 # PushGateway
 ## 使用场景介绍及部署
 
-
     Prometheus 是一套开源的系统监控、报警、时间序列数据库的组合。
     Prometheus 基本原理是通过 Http 协议周期性抓取被监控组件的状态，而输出这些被监控的组件的 Http 接口为 Exporter。
     PushGateway 作为 Prometheus 生态中的一个重要一员，它允许任何客户端向其 Push 符合规范的自定义监控指标，在结合 Prometheus 统一收集监控。
@@ -9,6 +8,24 @@
     PushGateway 使用场景:
     Prometheus 采用定时 Pull 模式，可能由于子网络或者防火墙的原因，不能直接拉取各个 Target 的指标数据，此时可以采用各个 Target 往 PushGateway 上 Push 数据，然后 Prometheus 去 PushGateway 上定时 pull。
     其次在监控各个业务数据时，需要将各个不同的业务数据进行统一汇总，此时也可以采用 PushGateway 来统一收集，然后 Prometheus 来统一拉取。
+
+## 部署
+    
+    1、二进制包安装
+    
+    2、docker 安装
+    $ docker run --name=${CONTAINER_NAME} -d -p 9091:9091 registry.cn-zhangjiakou.aliyuncs.com/livenowhy/pushgateway:lastest "-persistence.file=pg_file –persistence.interval=5m"
+    
+    prometheus.yml 添加 target
+    - job_name: 'push-metrics'
+        static_configs:
+        - targets: ['localhost:9091']
+        honor_labels: true
+    
+    # 因为 prometheus 配置 pushgateway 的时候,也会指定 job 和 instance, 但是它只表示pushgateway实例, 不能真正表达收集数据的含义。
+    所以配置 pushgateway 需要添加 honor_labels:true, 避免收集数据本身的 job 和 instance 被覆盖。
+    注意: 为了防止 pushgateway 重启或意外挂掉，导致数据丢失，可以通过 -persistence.file 和 -persistence.interval 参数将数据持久化下来。
+    访问 http://pushgateway.livenowhy.com/metrics 可以看到 pushgateway 自身的指标
 
 ## API 方式 Push 数据到 PushGateway
 
@@ -21,6 +38,7 @@
     $ echo "test_metric 2323" | curl --data-binary @- http://pushgateway.livenowhy.com/metrics/job/test_job/instance/demo01
     
     执行完毕，刷新一下 PushGateway UI 页面，此时就能看到刚添加的 test_metric 指标数据了。
+    需要注意: 使用这种方法，如果使用相同的job名 ，后面插入的数据会覆盖掉之前的
     
   ![指标数据](./images/push_gateway.jpg)
     
@@ -47,26 +65,30 @@
 
 
 ## 使用 PushGateway 注意事项
-   
-    指标值只能是数字类型，非数字类型报错
+    1、指标值只能是数字类型，非数字类型报错
+    
     $ echo "test_metric 12ff" | curl --data-binary @- http://pushgateway.livenowhy.com/metrics/job/test_job_1
     text format parsing error in line 1: expected float as value, got "12ff"
     
-    指标值支持最大长度为 16 位，超过16 位后默认置为 0
+    2、指标值支持最大长度为 16 位，超过16 位后默认置为 0
+    
     $ echo "test_metric 1234567898765432123456789" | curl --data-binary @- pushgateway.livenowhy.com/metrics/job/test_job_2
     # 实际获取值 test_metric{job="test_job_2"}	1234567898765432200000000
 
-## PushGateway 数据持久化操作
-
-    默认 PushGateway 不做数据持久化操作，当 PushGateway 重启或者异常挂掉，导致数据的丢失，我们可以通过启动时添加 -persistence.file 和 -persistence.interval 参数来持久化数据。
-    -persistence.file 表示本地持久化的文件，将 Push 的指标数据持久化保存到指定文件，-persistence.interval 表示本地持久化的指标数据保留时间，若设置为 5m，则表示 5 分钟后将删除存储的指标数据。
+    3、PushGateway 数据持久化操作
+    
+    默认 PushGateway 不做数据持久化操作，当 PushGateway 重启或者异常挂掉，导致数据的丢失。
+    我们可以通过启动时添加 -persistence.file 和 -persistence.interval 参数来持久化数据。
+    -persistence.file 表示本地持久化的文件，将 Push 的指标数据持久化保存到指定文件；
+    -persistence.interval 表示本地持久化的指标数据保留时间，若设置为 5m，则表示 5 分钟后将删除存储的指标数据。
     
     $ docker run -d -p 9091:9091 prom/pushgateway "-persistence.file=pg_file –persistence.interval=5m"
     
-## PushGateway 推送及 Prometheus 拉取时间设置
+    4、PushGateway 推送及 Prometheus 拉取时间设置
     
-    Prometheus 每次从 PushGateway 拉取的数据，并不是拉取周期内用户推送上来的所有数据，而是最后一次 Push 到 PushGateway 上的数据，
-    所以推荐设置推送时间小于或等于 Prometheus 拉取的时间，这样保证每次拉取的数据是最新 Push 上来的。
+    Prometheus 每次从 PushGateway 拉取的数据，并不是拉取周期内用户推送上来的所有数据，
+    而是最后一次 Push 到 PushGateway 上的数据，所以推荐设置推送时间小于或等于 Prometheus 拉取的时间，
+    这样保证每次拉取的数据是最新 Push 上来的。
 
 
 ## Metrics
@@ -131,3 +153,4 @@
 
     https://blog.csdn.net/aixiaoyang168/article/details/102818289
     https://github.com/prometheus/client_python
+    https://www.cnblogs.com/xiaobaozi-95/p/10684524.html
