@@ -44,9 +44,6 @@
     # HELP another_test_metrics Just an example.
     another_test_metrics 123.45
     EOF
-    
-
-
 
 
 ## 使用 PushGateway 注意事项
@@ -72,6 +69,65 @@
     所以推荐设置推送时间小于或等于 Prometheus 拉取的时间，这样保证每次拉取的数据是最新 Push 上来的。
 
 
+## Metrics
+    
+    Prometheus 提供 4 种类型 Metrics: Counter, Gauge, Summary 和 Histogram
+    1、Counter (计数器类型)
+    Counter 可以增长，并且在程序重启的时候会被重设为0，常被用于任务个数，总处理时间，错误个数等只增不减的指标。
+    
+    2、Gauge (仪表盘类型)
+    Gauge 是可增可减的指标类，可以用于反应当前应用的状态。
+    比如在监控主机时，主机当前的内容大小(node_memory_MemFree)，可用内存大小(node_memory_MemAvailable)。
+    或者时容器当前的cpu使用率，内存使用率。Gauge 指标对象主要包含两个方法inc() 以及dec()，用户添加或者减少计数。
+    
+    3、Summary 
+    
+    Summary 类型和 Histogram 类型相似，由<basename>{quantile="< φ>"}，< basename>_sum，< basename>_count组成，
+    主要用于表示一段时间内数据采样结果(通常时请求持续时间或响应大小)，它直接存储了quantile数据，而不是根据统计区间计算出来的。
+    Summary与Histogram相比，存在如下区别:
+    都包含 < basename>_sum和< basename>_count;
+    Histogram 需要通过< basename>_bucket计算quantile，而Summary直接存储了quantile的值。
+    在 Prometheus 自定义的 metrics 监控中，Summary 的使用可以参考如下:
+    
+    Summary类型指标中包含的数据如下:
+
+    a、事件发生总的次数
+    # 含义：当前http请求发生总次数为12次
+    io_namespace_http_requests_latency_seconds_summary_count{path="/",method="GET",code="200",} 12.0
+    
+    
+    b、事件产生的值的总和
+    # 含义：这12次http请求的总响应时间为 51.029495508s
+    io_namespace_http_requests_latency_seconds_summary_sum{path="/",method="GET",code="200",} 51.029495508
+    
+    c、事件产生的值的分布情况
+    # 含义：这12次http请求响应时间的中位数是3.052404983s
+    io_namespace_http_requests_latency_seconds_summary{path="/",method="GET",code="200",quantile="0.5",} 3.052404983
+    # 含义：这12次http请求响应时间的9分位数是8.003261666s
+    io_namespace_http_requests_latency_seconds_summary{path="/",method="GET",code="200",quantile="0.9",} 8.003261666
+    
+
+    4、Histogram (直方图类型)
+    
+    Histogram 由 < basename>_bucket{le="< upper inclusive bound>"}，< basename>_bucket{le="+Inf"}, < basename>_sum，_count 组成。
+    主要用于表示一段时间范围内对数据进行采样(通常是请求持续时间或响应大小)，并能够对其指定区间以及总数进行统计，通常它采集的数据展示为直方图。
+    在Prometheus 自定义的 metrics 监控中，Histgram 的使用可以参考如下:
+    以请求响应时间 requests_latency_seconds 为例，比如我们需要记录 http 请求响应时间符合在分布范围{0.005，0.01，0.025，0.05，0.075，0.1，0.25，0.5，0.75，1，2.5，5，7.5，10}中的次数时
+    使用 Histogram 构造器在创建 Histogram 监控指标时，默认的buckets范围为{0.005，0.01，0.025，0.05，0.075，0.1，0.25，0.5，0.75，1，2.5，5，7.5，10}，如果要修改默认的buckets，可以使用.buckets(double… bukets)覆盖。
+    
+    Histogram会自动创建3个指标，分别为:
+    a、事件发生的总次数，basename_count。
+    # 实际含义： 当前一共发生了2次http请求
+    io_namespace_http_requests_latency_seconds_histogram_count{path="/",method="GET",code="200",} 2.0
+    
+    b、所有事件产生值的大小的总和，basename_sum。
+    # 实际含义： 发生的2次http请求总的响应时间为13.107670803000001 秒
+    io_namespace_http_requests_latency_seconds_histogram_sum{path="/",method="GET",code="200",} 13.107670803000001
+    
+    c、事件产生的值分布在bucket中的次数，basename_bucket{le=“上包含”}
 
 
 ## 参考文档
+
+    https://blog.csdn.net/aixiaoyang168/article/details/102818289
+    https://github.com/prometheus/client_python
