@@ -89,7 +89,7 @@
     Histogram 需要通过< basename>_bucket计算quantile，而Summary直接存储了quantile的值。
     在 Prometheus 自定义的 metrics 监控中，Summary 的使用可以参考如下:
     
-    Summary类型指标中包含的数据如下:
+    Summary 类型指标中包含的数据如下:
 
     a、事件发生总的次数
     # 含义：当前http请求发生总次数为12次

@@ -18,6 +18,9 @@
   * [rsync 文件同步服务配置](linux/settings/003_rsync.md)
   * [公私钥对管理](linux/settings/004_rsa_key.md)
 
+* k8s 容器相关
+  * [prometheus pushgateway](linux/k8s/03_pushgateway.md)
+
 * linux 命令
   * [文本操作命令](linux/command/grep.md)
   
