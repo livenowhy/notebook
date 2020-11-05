@@ -100,7 +100,7 @@
     2、Gauge (仪表盘类型)
     Gauge 是可增可减的指标类，可以用于反应当前应用的状态。
     比如在监控主机时，主机当前的内容大小(node_memory_MemFree)，可用内存大小(node_memory_MemAvailable)。
-    或者时容器当前的cpu使用率，内存使用率。Gauge 指标对象主要包含两个方法inc() 以及dec()，用户添加或者减少计数。
+    或者时容器当前的 cpu 使用率，内存使用率。Gauge 指标对象主要包含两个方法inc() 以及dec()，用户添加或者减少计数。
     
     3、Summary 
     
