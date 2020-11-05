@@ -1,0 +1,5 @@
+# skills
+
+## redis
+## mysql
+## django
