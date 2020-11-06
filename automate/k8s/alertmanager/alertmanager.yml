@@ -1,0 +1,40 @@
+global:
+  resolve_timeout: 190m
+  http_config: {}
+  pagerduty_url: https://events.pagerduty.com/v2/enqueue
+  hipchat_api_url: https://api.hipchat.com/
+  opsgenie_api_url: https://api.opsgenie.com/
+  victorops_api_url: https://alert.victorops.com/integrations/generic/20131114/alert/
+route:
+  receiver: webhook_alertreceiver_default
+  routes:
+  - receiver: webhook_alertreceiver_default
+    group_by:
+    - datasource
+    - namespace
+    - instanceId
+    match_re:
+      datasource: huawei
+    group_wait: 30s
+    group_interval: 1m
+    repeat_interval: 5m
+  - receiver: webhook_alertreceiver_default
+    group_by:
+    - cluster
+    match_re:
+      cluster: .*
+    continue: true
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 10m
+receivers:
+- name: webhook_alertreceiver_default
+  webhook_configs:
+  - send_resolved: true
+    http_config: {}
+    url: http://api.livenowhy.com/v2/alertmanager/post
+  - send_resolved: true
+    http_config: {}
+    url: http://api.livenowhy.com/v2/alertmanager/post
+templates:
+- /etc/alertmanager/template/*.tmpl

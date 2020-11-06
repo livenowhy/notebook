@@ -1,0 +1,35 @@
+version: '3.3'
+services:
+  mysql_01:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/mysql:5.6
+    container_name: db_mysql_01
+    network_mode: "bridge"
+    ports:
+      - 3307:3306
+    volumes:
+      - /dbdata/mysql/01/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "myops8639"
+      MYSQL_DATABASE: cmdb
+#      MYSQL_USER: root
+#      MYSQL_PASSWORD: "123456"
+
+  mysql_02:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/mysql:5.6
+    container_name: db_mysql_02
+    network_mode: "bridge"
+    ports:
+      - 3308:3306
+    volumes:
+      - /dbdata/mysql/02/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "myops12345"
+      MYSQL_DATABASE: cmdb
+#      MYSQL_USER: root
+#      MYSQL_PASSWORD: "123456"
+
+# mkdir -p /dbdata/mysql/01/data
+# mkdir -p /dbdata/mysql/02/data
+# chmod -R a+wr /dbdata/mysql
+
+# user: root, port: 3308, password: myops12345

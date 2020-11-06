@@ -1,0 +1,54 @@
+version: '3.3'
+services:
+  # 0、node_exporter 通过 node_exporter 采集数据
+
+  # 1、prometheus 服务
+  # a. prometheus.yml 配置文件 (用了配置数据源)
+  # b. rules.yml      配置报警规则
+  prometheus:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/prometheus:lastest
+    container_name: prometheus
+    network_mode: "bridge"
+    ports:
+      - 9090:9090
+    extra_hosts:
+      node_exporter.livenowhy.com: 10.2.56.162
+      alertmanager.livenowhy.com: 10.2.56.162
+      pushgateway.livenowhy.com: 10.2.56.162
+  grafana:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/grafana:lastest
+    container_name: grafana
+    network_mode: "bridge"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    ports:
+      - 3000:3000
+    extra_hosts:
+      prometheus.livenowhy.com: 10.2.56.162
+
+  alertmanager:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/alertmanager:lastest
+    container_name: alertmanager
+    network_mode: "bridge"
+    ports:
+      - 9093:9093
+    extra_hosts:
+      prometheus.livenowhy.com: 10.2.56.162
+      node_exporter.livenowhy.com: 10.2.56.162
+      api.livenowhy.com: 10.2.56.162
+
+  pushgateway:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/pushgateway:lastest
+    container_name: pushgateway
+    network_mode: "bridge"
+    ports:
+      - 9091:9091
+    extra_hosts:
+      prometheus.livenowhy.com: 10.2.56.162
+      node_exporter.livenowhy.com: 10.2.56.162
+      api.livenowhy.com: 10.2.56.162
+
+      #
+
+  # 10.2.56.162 本机ip 本地执行 node_exporter 启动 node_exporter
+  # docker run -d -p 9090:9090 --name prometheus  registry.cn-zhangjiakou.aliyuncs.com/livenowhy/prometheus:2.22.0

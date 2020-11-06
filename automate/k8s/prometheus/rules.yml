@@ -1,0 +1,27 @@
+groups:
+- name: Host
+  rules:  # 定义规则组
+  - alert: NodeMemoryUsage80   #  定义报警名称
+    # Promql语句，触发规则
+    expr: (node_memory_MemTotal_bytes - (node_memory_MemFree_bytes+node_memory_Buffers_bytes+node_memory_Cached_bytes )) / node_memory_MemTotal_bytes * 100 > 80
+    for: 1m  # 一分钟
+    labels:  # 标签定义报警的级别和主机
+      name: Memory
+      severity: critical
+    annotations:  # 注解
+      summary: "{{$labels.instance}}: High Memory usage detected"     # 报警摘要，取报警信息的 appname 名称
+      description: "{{$labels.instance}}: Memory usage is above 80% (current value is: {{ $value }}"   # 报警信息
+      value: "{{ $value }}"                   # 当前报警状态值
+      message: "宿主机内存使用率超过80%."
+
+  - alert: NodeMemoryUsage60
+    expr: (node_memory_MemTotal_bytes - (node_memory_MemFree_bytes+node_memory_Buffers_bytes+node_memory_Cached_bytes )) / node_memory_MemTotal_bytes * 100 > 60
+    for: 1m
+    labels:
+      name: Memory
+      severity: critical
+    annotations:
+      summary: "{{$labels.instance}}: High Memory usage detected"
+      description: "{{$labels.instance}}: Memory usage is above 80% (current value is: {{ $value }}"
+      value: "{{ $value }}"
+      message: "宿主机内存使用率超过60%."

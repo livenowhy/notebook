@@ -1,0 +1,35 @@
+version: '3.3'
+services:
+  mysql:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/mysql:5.6
+    container_name: db_mysql
+    network_mode: "bridge"
+    ports:
+      - 3307:3306
+    volumes:
+      - /dbdata/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "myops8639"
+      MYSQL_DATABASE: cmdb
+
+#  rabbitmq:
+#    hostname: rabbitmq
+#    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/rabbitmq:3.8-management
+#    container_name: rabbitmq
+#    network_mode: "bridge"
+#    ports:
+#      - 15672:15672
+#      - 4369:4369
+#      - 5672:5672
+#      - 25672:25672
+#      - 5671:5671
+
+  redis:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/redis:6.0.base
+    container_name: db_redis
+    network_mode: "bridge"
+    ports:
+      - 6379:6379
+
+# mkdir -p /dbdata/mysql/data
+# chmod -R a+wr /dbdata/mysql
