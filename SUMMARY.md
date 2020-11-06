@@ -27,6 +27,9 @@
 * linux 命令
   * [文本操作命令](linux/command/grep.md)
   
+* 自动化脚步
+  * [概述](automate/READMD.md)
+  
 * git 相关
   * [基本操作](linux/git/01_init.md)
   * [Git 服务器搭建](linux/git/02_create_service.md)
