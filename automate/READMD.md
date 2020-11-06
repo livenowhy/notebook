@@ -1,8 +1,11 @@
 # docker 容器镜像构建
 
+## 监控告警相关镜像
 
-## centos 镜像
+  `1` prometheus
 
-## odoo 类镜像
-
-
+    prometheus:2.22.0 基于 prometheus 2.22.0 版本的基础镜像
+    registry.cn-zhangjiakou.aliyuncs.com/livenowhy/prometheus:2.22.0
+    
+    prometheus:lastest 镜像
+    registry.cn-zhangjiakou.aliyuncs.com/livenowhy/prometheus:lastest
