@@ -1,10 +1,19 @@
 # my global config
+# 全局配置
 global:
   scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
   evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-  # scrape_timeout is set to the global default (10s).
+  scrape_timeout:      10s # scrape_timeout is set to the global default (10s).
+  # scrape_interval:     抓取间隔
+  # evaluation_interval: 评估规则间隔
+  # scrape_timeout:      抓取超时时间
 
-# Alertmanager configuration
+  # 当 Prometheus 和外部系统(、远程存储, Alertmanager)通信的时候,添加标签到任意的时间序列或者报警
+  external_labels:
+    host: livenowhy
+    user: guest
+
+# Alertmanager configuration; Alertmanager相关的配置
 alerting:
   alertmanagers:
   - static_configs:
@@ -12,18 +21,27 @@ alerting:
        - alertmanager.livenowhy.com
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+# 规则文件, 可以使用通配符
 rule_files:
    - "rules.yml"
-  # - "second_rules.yml"
+  # - "rules/*rules.yml"
+
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
+# 收集数据配置列表
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: 'prometheus'
-
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
+  - job_name: 'prometheus'  # 必须配置, 自动附加的job labels, 必须唯一
+    # 可以在定义局部的 scrape_interval、scrape_timeout, 默认继承global值
+    # sample_limit: 1000  # 每次收集样本数据的限制. 0 为不限制
+    # metrics_path defaults to '/metrics'  # 抓取路径, 默认是/metrics
+    # scheme defaults to 'http'.           # 指定采集使用的协议, http或者https
+    # params: 指定 url 参数
+    # basic_auth: 指定认证信息
+    # *_sd_configs: 指定服务发现配置
+    # static_configs: 静态指定服务 job
+    # relabel_config: relabel 设置
 
     static_configs:
     - targets: ['localhost:9090']
@@ -35,8 +53,33 @@ scrape_configs:
         appname: 'node_exporter'
 
   - job_name: 'pushgateway'
+    # 标签冲突, true 为以抓取的数据为准并忽略服务器中的; false 为通过重命名来解决冲突
     honor_labels: true
     static_configs:
     - targets: ['pushgateway.livenowhy.com']
       labels:
         appname: 'pushgateway'
+
+
+# 数据收集支持, basic_auth: HTTP basic 认证信息; 数据源中可以配置认证信息
+
+
+
+# remote_write、remote_read 配置远端存储
+# 长期存储 prometheus 的监控数据，可以选择 influxdb 作为 remote storage
+# 远程写入功能相关的设置; 指定后端的存储的写入api地址
+#remote_write:
+#  - url: http://remote1/push
+#    write_relabel_configs:
+#    - source_labels: [__name__]
+#      regex:         expensive.*
+#      action:        drop
+
+# 远程读取相关功能的设置; 指定后端的存储的读取api地址
+#remote_read:
+#  - url: http://remote3/read
+#    read_recent: false
+#    required_matchers:
+#      job: special
+
+# https://www.cnblogs.com/momoyan/p/11783519.html
