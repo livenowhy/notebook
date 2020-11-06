@@ -83,3 +83,17 @@ scrape_configs:
 #      job: special
 
 # https://www.cnblogs.com/momoyan/p/11783519.html
+
+# 还可以配置如下:
+# 1、consul 服务发现配置列表
+# 2、文件服务发现配置列表
+
+# 目标节点重新打标签的配置列表.
+# 重新标记是一个功能强大的工具，可以在抓取目标之前动态重写目标的标签集。
+# 可以配置多个，按照先后顺序应用
+#relabel_configs:
+#- source_labels: [job, __meta_dns_name]   # 从现有的标签中选择源标签, 最后会被 替换， 保持， 丢弃
+#  regex:         (.*)some-[regex]  # 正则表达式, 将会提取source_labels中匹配的值
+#  target_label:  job   # 在替换动作中将结果值写入的标签.
+#  replacement:   foo-${1}  # 如果正则表达匹配, 那么替换值. 可以使用正则表达中的 捕获组
+#  # action defaults to 'replace'
