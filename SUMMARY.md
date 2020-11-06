@@ -20,6 +20,7 @@
 
 * k8s 容器相关
   * [prometheus 概述](linux/k8s/01_prometheus.md)
+  * [prometheus 配置文件详解](linux/k8s/02_prometheus_config.md)
   * [pushgateway](linux/k8s/03_pushgateway.md)
   * [PromQL 语法](linux/k8s/04_promql.md)
 
