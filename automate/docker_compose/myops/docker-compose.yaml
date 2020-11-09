@@ -27,13 +27,27 @@ services:
       MYSQL_DATABASE: cmdb
 #      MYSQL_USER: root
 #      MYSQL_PASSWORD: "123456"
-
   redis:
     image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/redis:6.0.base
     container_name: db_redis
     network_mode: "bridge"
     ports:
       - 6379:6379
+
+  rabbitmq:
+    hostname: rabbitmq
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/rabbitmq:3.8-management
+    container_name: rabbitmq
+    network_mode: "bridge"
+    ports:
+      - 15672:15672
+      - 4369:4369
+      - 5672:5672
+      - 25672:25672
+      - 5671:5671
+  #    environment:
+  #      RABBITMQ_DEFAULT_PASS: "myops8639"
+  #      RABBITMQ_DEFAULT_USER: cmdb
 
 # mkdir -p /dbdata/mysql/01/data
 # mkdir -p /dbdata/mysql/02/data
