@@ -30,6 +30,5 @@ services:
     network_mode: "bridge"
     ports:
       - 6379:6379
-
 # mkdir -p /dbdata/mysql/data
 # chmod -R a+wr /dbdata/mysql

@@ -28,6 +28,13 @@ services:
 #      MYSQL_USER: root
 #      MYSQL_PASSWORD: "123456"
 
+  redis:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/redis:6.0.base
+    container_name: db_redis
+    network_mode: "bridge"
+    ports:
+      - 6379:6379
+
 # mkdir -p /dbdata/mysql/01/data
 # mkdir -p /dbdata/mysql/02/data
 # chmod -R a+wr /dbdata/mysql
