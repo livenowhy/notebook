@@ -22,5 +22,7 @@ receivers:
   - send_resolved: true
     http_config: {}
     url: http://api.livenowhy.com/app/open/alertmanager/alert
+    to: sdsd
+    group_uuid: sdsd
 templates:
 - /etc/alertmanager/template/*.tmpl
