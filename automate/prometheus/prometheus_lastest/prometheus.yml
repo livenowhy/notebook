@@ -64,7 +64,7 @@ scrape_configs:
         regex:             'job'
         action: drop
       - source_labels:  [__name__]
-        regex:             'job'
+        regex:             'appname'
         action: drop
 
 
