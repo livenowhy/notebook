@@ -59,15 +59,11 @@ scrape_configs:
     - targets: ['pushgateway.livenowhy.com']
       labels:
         appname: 'pushgateway'
-    relabel_configs:
-      - source_labels:  [__name__]
-        regex:             'job'
-        action: drop
-      - source_labels:  [__name__]
-        regex:             'appname'
-        action: drop
-
-
+    metric_relabel_configs:
+      - regex: 'appname'
+        action: labeldrop
+      - regex: 'job'
+        action: labeldrop
 # 数据收集支持, basic_auth: HTTP basic 认证信息; 数据源中可以配置认证信息
 
 
