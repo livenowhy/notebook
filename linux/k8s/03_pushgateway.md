@@ -22,7 +22,7 @@
         - targets: ['localhost:9091']
         honor_labels: true
     
-    # 因为 prometheus 配置 pushgateway 的时候,也会指定 job 和 instance, 但是它只表示pushgateway实例, 不能真正表达收集数据的含义。
+    因为 prometheus 配置 pushgateway 的时候,也会指定 job 和 instance, 但是它只表示pushgateway实例, 不能真正表达收集数据的含义。
     所以配置 pushgateway 需要添加 honor_labels:true, 避免收集数据本身的 job 和 instance 被覆盖。
     注意: 为了防止 pushgateway 重启或意外挂掉，导致数据丢失，可以通过 -persistence.file 和 -persistence.interval 参数将数据持久化下来。
     访问 http://pushgateway.livenowhy.com/metrics 可以看到 pushgateway 自身的指标
@@ -50,9 +50,7 @@
     这里要着重提一下的是:
     上图中 test_metric 我们查询出来的结果为:
     test_metric{appname="pushgateway",exported_instance="demo01",exported_job="test_job",instance="pushgateway.livenowhy.com:80",job="pushgateway"}。
-    眼尖的会发现这里头好像不太对劲，刚刚提交的指标所属 job 名称为 test_job ，为啥显示的为 exported_job="test_job" ，而 job 显示为 job="pushgateway" ，这显然不太正确，那这是因为啥？
-    其实是因为 Prometheus 配置中的一个参数 honor_labels (默认为 false)决定的，我们不妨再 Push 一个数据，来演示下添加 honor_labels: true 参数前后的变化。
-    
+
     这次，我们 Push 一个复杂一些的，一次写入多个指标，而且每个指标添加 TYPE 及 HELP 说明。
 
     $ cat <<EOF | curl --data-binary @- http://pushgateway.livenowhy.com/metrics/job/test_job/instance/test_instance

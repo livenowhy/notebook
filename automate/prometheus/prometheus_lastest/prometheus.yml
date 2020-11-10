@@ -8,7 +8,7 @@ global:
   # evaluation_interval: 评估规则间隔
   # scrape_timeout:      抓取超时时间
 
-  # 当 Prometheus 和外部系统(、远程存储, Alertmanager)通信的时候,添加标签到任意的时间序列或者报警
+  # 当 Prometheus 和外部系统(远程存储, Alertmanager)通信的时候,添加标签到任意的时间序列或者报警
   external_labels:
     host: livenowhy
     user: guest
@@ -59,10 +59,16 @@ scrape_configs:
     - targets: ['pushgateway.livenowhy.com']
       labels:
         appname: 'pushgateway'
+    relabel_configs:
+      - source_labels:  [__name__]
+        regex:             'job'
+        action: drop
+      - source_labels:  [__name__]
+        regex:             'job'
+        action: drop
 
 
 # 数据收集支持, basic_auth: HTTP basic 认证信息; 数据源中可以配置认证信息
-
 
 
 # remote_write、remote_read 配置远端存储
