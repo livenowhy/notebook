@@ -33,8 +33,5 @@ receivers:
   - send_resolved: true
     http_config: {}
     url: http://api.livenowhy.com/v2/alertmanager/post
-  - send_resolved: true
-    http_config: {}
-    url: http://api.livenowhy.com/v2/alertmanager/post
 templates:
 - /etc/alertmanager/template/*.tmpl
