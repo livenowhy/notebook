@@ -44,6 +44,9 @@ services:
     network_mode: "bridge"
     ports:
       - 9091:9091
+    entrypoint:
+      - /bin/pushgateway
+      - --persistence.interval=30s
     extra_hosts:
       prometheus.livenowhy.com: 10.2.56.162
       node_exporter.livenowhy.com: 10.2.56.162

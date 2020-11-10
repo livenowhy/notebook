@@ -80,7 +80,7 @@
     -persistence.file 表示本地持久化的文件，将 Push 的指标数据持久化保存到指定文件；
     -persistence.interval 表示本地持久化的指标数据保留时间，若设置为 5m，则表示 5 分钟后将删除存储的指标数据。
     
-    $ docker run -d -p 9091:9091 prom/pushgateway "-persistence.file=pg_file –persistence.interval=5m"
+    $ docker run -d -p 9091:9091 prom/pushgateway "-persistence.file=pg_file –-persistence.interval=5m"
     
     4、PushGateway 推送及 Prometheus 拉取时间设置
     
