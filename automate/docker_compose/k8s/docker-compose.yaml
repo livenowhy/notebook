@@ -16,6 +16,19 @@ services:
       alertmanager.livenowhy.com: 10.2.56.162
       pushgateway.livenowhy.com: 10.2.56.162
       influxdb.livenowhy.com: 10.2.56.162
+
+  prometheus_read:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/prometheus:read
+    container_name: prometheus_read
+    network_mode: "bridge"
+    ports:
+      - 9099:9090
+    extra_hosts:
+      node_exporter.livenowhy.com: 10.2.56.162
+      alertmanager.livenowhy.com: 10.2.56.162
+      pushgateway.livenowhy.com: 10.2.56.162
+      influxdb.livenowhy.com: 10.2.56.162
+
   grafana:
     image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/grafana:lastest
     container_name: grafana
@@ -63,8 +76,6 @@ services:
       prometheus.livenowhy.com: 10.2.56.162
       api.livenowhy.com: 10.2.56.162
 
-
-      #
 # docker-compose stop & docker-compose rm -f
-  # 10.2.56.162 本机ip 本地执行 node_exporter 启动 node_exporter
-  # docker run -d -p 9090:9090 --name prometheus  registry.cn-zhangjiakou.aliyuncs.com/livenowhy/prometheus:2.22.0
+# 10.2.56.162 本机ip 本地执行 node_exporter 启动 node_exporter
+# docker run -d -p 9090:9090 --name prometheus  registry.cn-zhangjiakou.aliyuncs.com/livenowhy/prometheus:2.22.0
