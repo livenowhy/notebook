@@ -19,6 +19,6 @@ rule_files:
   # - "rules/*rules.yml"
 
 remote_read:
-  - url: "http://influxdb.livenowhy.com/api/v1/prom/read?db=prometheus"
+  - url: "http://remote_storage_adapter.livenowhy.com/read"
 
 # http://chenzhijun.me/2018/06/09/prometheus-storage-influxdb/

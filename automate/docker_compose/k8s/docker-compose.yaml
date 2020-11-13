@@ -28,6 +28,7 @@ services:
       alertmanager.livenowhy.com: 10.2.56.162
       pushgateway.livenowhy.com: 10.2.56.162
       influxdb.livenowhy.com: 10.2.56.162
+      remote_storage_adapter.livenowhy.com: 10.2.56.162
 
   grafana:
     image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/grafana:lastest
@@ -53,7 +54,6 @@ services:
 
   pushgateway:
     image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/pushgateway:lastest
-#    command: –-persistence.interval=5m
     container_name: pushgateway
     network_mode: "bridge"
     ports:
@@ -76,6 +76,24 @@ services:
       prometheus.livenowhy.com: 10.2.56.162
       api.livenowhy.com: 10.2.56.162
 
+  remote_storage_adapter:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/remote_storage_adapter:lastest
+    container_name: remote_storage_adapter
+    network_mode: "bridge"
+    entrypoint:
+      - /bin/remote_storage_adapter
+      - --influxdb-url=http://influxdb.livenowhy.com
+      - --influxdb.database=prometheus
+      - --influxdb.retention-policy=autogen
+    ports:
+      - 9909:9201
+    # ./remote_storage_adapter --influxdb-url=http://influxdb.livenowhy.com --influxdb.database=prometheus --influxdb.retention-policy=autogen
+    extra_hosts:
+      influxdb.livenowhy.com: 10.2.56.162
+  # 9201 端口是 remote_storage_adapter 默认监听的端口
+
 # docker-compose stop & docker-compose rm -f
+# docker-compose up -d
+# docker ps -a --no-trunc
 # 10.2.56.162 本机ip 本地执行 node_exporter 启动 node_exporter
 # docker run -d -p 9090:9090 --name prometheus  registry.cn-zhangjiakou.aliyuncs.com/livenowhy/prometheus:2.22.0

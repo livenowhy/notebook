@@ -1,9 +1,11 @@
-FROM registry.cn-zhangjiakou.aliyuncs.com/livenowhy/golang:1.15.5-alpine3.12
+FROM suryastef/remote_storage_adapter
 MAINTAINER livenowhy <livenowhy@hotmail.com>
 
-RUN go get -d -v github.com/prometheus/prometheus/documentation/examples/remote_storage/remote_storage_adapter
-RUN go build -v github.com/prometheus/prometheus/documentation/examples/remote_storage/remote_storage_adapter
+#CMD ["/bin/remote_storage_adapter", "--influxdb-url=http://influxdb.livenowhy.com", "--influxdb.database=prometheus", "--influxdb.retention-policy=autogen"]
 
-#FROM scratch
-#COPY --from=builder /go/remote_storage_adapter /bin/remote_storage_adapter
-#ENTRYPOINT ["/bin/remote_storage_adapter"]
+# --influxdb-url=http://influxdb.livenowhy.com --influxdb.database=prometheus --influxdb.retention-policy=autogen"]
+
+# docker run -d registry.cn-zhangjiakou.aliyuncs.com/livenowhy/remote_storage_adapter:lastest
+# docker run -it registry.cn-zhangjiakou.aliyuncs.com/livenowhy/remote_storage_adapter:lastest sh
+
+# remote_storage_adapter --influxdb-url=influxdb.livenowhy.com --influxdb.database="prometheus" --influxdb.retention-policy=autogen

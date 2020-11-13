@@ -2,8 +2,8 @@ all: push
 
 TAG = lastest
 PREFIX = registry.cn-zhangjiakou.aliyuncs.com
-IMAGE_NAME = livenowhy/influxdb
-CONTAINER_NAME = influxdb
+IMAGE_NAME = livenowhy/remote_storage_adapter
+CONTAINER_NAME = remote_storage_adapter
 
 
 container:
@@ -17,7 +17,7 @@ clean:
 
 
 run: rm
-	docker run --name=${CONTAINER_NAME} -d -p 8086:8086 -p 2003:2003 -e INFLUXDB_GRAPHITE_ENABLED=true ${PREFIX}/${IMAGE_NAME}:${TAG}
+	docker run --name=${CONTAINER_NAME} -d ${PREFIX}/${IMAGE_NAME}:${TAG}
 
 stop:
 	docker stop ${CONTAINER_NAME} || true
