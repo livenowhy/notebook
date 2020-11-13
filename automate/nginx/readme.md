@@ -1,4 +1,4 @@
 # linux ngnix
 
-    $ cp /share/dockerfile/nginx/nginx.conf /etc/nginx/nginx.conf
+    $ cp /share/notebook/automate/nginx/nginx.conf /etc/nginx/nginx.conf
     $ nginx -s reload

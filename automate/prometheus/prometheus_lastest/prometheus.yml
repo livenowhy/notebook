@@ -67,6 +67,11 @@ scrape_configs:
 # 数据收集支持, basic_auth: HTTP basic 认证信息; 数据源中可以配置认证信息
 
 
+remote_write:
+  - url: "http://influxdb.livenowhy.com/api/v1/prom/write?db=prometheus"
+remote_read:
+  - url: "http://influxdb.livenowhy.com/api/v1/prom/read?db=prometheus"
+
 # remote_write、remote_read 配置远端存储
 # 长期存储 prometheus 的监控数据，可以选择 influxdb 作为 remote storage
 # 远程写入功能相关的设置; 指定后端的存储的写入api地址
@@ -83,6 +88,7 @@ scrape_configs:
 #    read_recent: false
 #    required_matchers:
 #      job: special
+
 
 # https://www.cnblogs.com/momoyan/p/11783519.html
 

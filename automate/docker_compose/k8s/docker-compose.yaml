@@ -15,6 +15,7 @@ services:
       node_exporter.livenowhy.com: 10.2.56.162
       alertmanager.livenowhy.com: 10.2.56.162
       pushgateway.livenowhy.com: 10.2.56.162
+      influxdb.livenowhy.com: 10.2.56.162
   grafana:
     image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/grafana:lastest
     container_name: grafana
@@ -50,6 +51,16 @@ services:
     extra_hosts:
       prometheus.livenowhy.com: 10.2.56.162
       node_exporter.livenowhy.com: 10.2.56.162
+      api.livenowhy.com: 10.2.56.162
+
+  influxdb:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/influxdb:lastest
+    container_name: influxdb
+    network_mode: "bridge"
+    ports:
+      - 8086:8086
+    extra_hosts:
+      prometheus.livenowhy.com: 10.2.56.162
       api.livenowhy.com: 10.2.56.162
 
 
