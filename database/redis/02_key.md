@@ -93,15 +93,13 @@
     
     PERSIST key  ;移除 key 的过期时间, key 将持久保持
     
-  `14` RENAMENX
+  `14` RENAMENX 修改 key 的名称
  
-    RENAMENX 修改 key 的名称
-    RENAMENX key newkey
-    仅当 newkey 不存在时, 将 key 改名为 newkey
+    RENAMENX key newkey   仅当 newkey 不存在时, 将 key 改名为 newkey
     
-  `15` RENAME
+  `15` RENAME   修改 key 的名称
   
-    RENAME key newkey   修改 key 的名称
+    RENAME key newkey   
     
   `16` RANDOMKEY
     
