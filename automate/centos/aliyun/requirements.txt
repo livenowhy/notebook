@@ -1,0 +1,7 @@
+aliyun-python-sdk-cms
+aliyun-python-sdk-core
+aliyun-python-sdk-core-v3
+aliyunsdkcore
+aliyun-python-sdk-vpc
+aliyun-python-sdk-ram
+acm-sdk-python
