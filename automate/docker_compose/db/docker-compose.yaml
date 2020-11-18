@@ -45,6 +45,8 @@ services:
       - 5672:5672
       - 25672:25672
       - 5671:5671
+    volumes:
+      - /dbdata/rabbitmq:/var/lib/rabbitmq
   #    environment:
   #      RABBITMQ_DEFAULT_PASS: "myops8639"
   #      RABBITMQ_DEFAULT_USER: cmdb
@@ -52,6 +54,8 @@ services:
 
 # mkdir -p /dbdata/mysql/01/data
 # mkdir -p /dbdata/mysql/02/data
+# mkdir -p /dbdata/rabbitmq
 # chmod -R a+wr /dbdata/mysql
+# chmod -R a+wr /dbdata/rabbitmq
 
 # user: root, port: 3308, password: myops12345
