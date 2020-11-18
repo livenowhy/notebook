@@ -49,6 +49,7 @@ services:
   #      RABBITMQ_DEFAULT_PASS: "myops8639"
   #      RABBITMQ_DEFAULT_USER: cmdb
 
+
 # mkdir -p /dbdata/mysql/01/data
 # mkdir -p /dbdata/mysql/02/data
 # chmod -R a+wr /dbdata/mysql
