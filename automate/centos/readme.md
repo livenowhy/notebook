@@ -15,7 +15,7 @@
      pyhton3 开发环境 基于 tools
      registry.cn-zhangjiakou.aliyuncs.com/livenowhy/centos:py36
 
-  `5` pip3
+  `4` pip3
 
      pyhton3 开发环境依赖包, 基于 py3
      registry.cn-zhangjiakou.aliyuncs.com/livenowhy/centos:pip3

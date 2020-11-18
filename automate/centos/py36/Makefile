@@ -4,7 +4,6 @@ TAG = py36
 PREFIX = registry.cn-zhangjiakou.aliyuncs.com
 IMAGE_NAME = livenowhy/centos
 
-
 container:
 	wget https://bootstrap.pypa.io/get-pip.py
 	docker build -t ${PREFIX}/${IMAGE_NAME}:${TAG} .
@@ -15,6 +14,3 @@ push: container
 
 clean:
 	docker rmi -f $(PREFIX):$(TAG) || true
-
-
-# CentOS基础镜像制作
