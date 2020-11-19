@@ -13,9 +13,9 @@ route:
     - datasource
     match_re:
       datasource: live_dev
-    group_wait: 30s
-    group_interval: 1m
-    repeat_interval: 5m
+    group_wait: 10s
+    group_interval: 20s
+    repeat_interval: 30s
 receivers:
 - name: webhook_default
   webhook_configs:
