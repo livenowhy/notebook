@@ -10,10 +10,6 @@
     prometheus:lastest 基于 2.22.0 添加了相关配置之后的镜像
     registry.cn-zhangjiakou.aliyuncs.com/livenowhy/prometheus:lastest
     
-  `2` alertmanager
-
-    alertmanager:v0.15.3 基于 alertmanager v0.15.3 版本的基础镜像
-    registry.cn-zhangjiakou.aliyuncs.com/livenowhy/alertmanager:v0.15.3
-    
-    alertmanager:lastest 基于 v0.15.3 添加了相关配置之后的镜像
+  `2` alertmanager alertmanager v0.15.3 版本的基础镜像
+  
     registry.cn-zhangjiakou.aliyuncs.com/livenowhy/alertmanager:lastest

@@ -14,15 +14,11 @@ push: container
 clean:
 	docker rmi -f $(PREFIX):$(TAG) || true
 
-
 run: rm pull
-	docker run --name=${CONTAINER_NAME} -d -p 3000:3000 ${PREFIX}/${IMAGE_NAME}:${TAG}
+	docker run --name=${CONTAINER_NAME} -d -p 9093:9093 ${PREFIX}/${IMAGE_NAME}:${TAG}
 
 stop:
 	docker stop ${CONTAINER_NAME} || true
 
 rm: stop
 	docker rm -f ${CONTAINER_NAME} || true
-
-
-
