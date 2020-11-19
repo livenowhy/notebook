@@ -1,6 +1,6 @@
 all: push
 
-TAG = ops
+TAG = aliyun
 PREFIX = registry.cn-zhangjiakou.aliyuncs.com
 IMAGE_NAME = livenowhy/centos
 

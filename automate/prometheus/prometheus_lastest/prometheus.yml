@@ -68,9 +68,9 @@ scrape_configs:
 
 
 remote_write:
-  - url: "http://influxdb.livenowhy.com/api/v1/prom/write?db=prometheus"
+  - url: "http://remote_storage_adapter.livenowhy.com/write"
 remote_read:
-  - url: "http://influxdb.livenowhy.com/api/v1/prom/read?db=prometheus"
+  - url: "http://remote_storage_adapter.livenowhy.com/read"
 
 # remote_write、remote_read 配置远端存储
 # 长期存储 prometheus 的监控数据，可以选择 influxdb 作为 remote storage
