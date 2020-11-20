@@ -5,13 +5,12 @@
 #### string 字符串
 
     string 是 redis 最基本的类型，你可以理解成与 Memcached 一模一样的类型，一个 key 对应一个 value。
-    string 类型是二进制安全的。意思是 redis 的 string 可以包含任何数据。比如jpg图片或者序列化的对象。
+    string 类型是二进制安全的。意思是 redis 的 string 可以包含任何数据。比如 jpg 图片或者序列化的对象。
     string 类型是 Redis 最基本的数据类型，string 类型的值最大能存储 512MB。
 
 #### hash 哈希
     Redis hash 是一个键值(key=>value)对集合。
     Redis hash 是一个 string 类型的 field 和 value 的映射表，hash 特别适合用于存储对象。
-
     每个 hash 可以存储 2^32 -1 键值对(40多亿)
 
 #### list 列表

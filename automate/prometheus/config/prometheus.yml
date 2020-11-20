@@ -11,7 +11,7 @@ global:
   # 当 Prometheus 和外部系统(远程存储, Alertmanager)通信的时候,添加标签到任意的时间序列或者报警
   external_labels:
     cluster: prometheus-dev
-    datasouce: node_exporter
+    datasource: node_exporter
 
 # Alertmanager configuration; Alertmanager相关的配置
 alerting:

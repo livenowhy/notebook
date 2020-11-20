@@ -8,4 +8,4 @@
 
 ## 视频教程
     
-    https://www.bilibili.com/video/BV1Ts411h7EH?p=4
+    https://www.bilibili.com/video/BV1S54y1R7SB?p=2
