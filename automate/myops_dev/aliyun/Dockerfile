@@ -7,3 +7,4 @@ RUN cd /home/ && pip install -r requirements.txt && rm -rf /home/*
 # registry.cn-zhangjiakou.aliyuncs.com/livenowhy/centos:ali
 # registry.cn-beijing.aliyuncs.com/glodon-common/myops:ali
 # aliyunsdkcore==1.0.3
+# aliyun-python-sdk-core-v3==2.13.11
