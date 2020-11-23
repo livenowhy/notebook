@@ -4,6 +4,6 @@ MAINTAINER livenowhy <livenowhy@hotmail.com>
 COPY ./requirements.txt /home/
 RUN cd /home/ && pip install -r requirements.txt && rm -rf /home/*
 
-
 # registry.cn-zhangjiakou.aliyuncs.com/livenowhy/centos:ali
+# registry.cn-beijing.aliyuncs.com/glodon-common/myops:ali
 # aliyunsdkcore==1.0.3
