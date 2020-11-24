@@ -10,6 +10,7 @@ services:
       prometheus.livenowhy.com: 10.2.56.162
       api.livenowhy.com: 10.2.56.162
     environment:
+      INFLUXDB_DB: telegraf
       INFLUXDB_ADMIN_USER: admin
       INFLUXDB_ADMIN_PASSWORD: admin
       INFLUXDB_USER: telegraf
@@ -23,9 +24,26 @@ services:
       - 8888:8888
     extra_hosts:
       influxdb.livenowhy.com: 10.2.56.162
+    depends_on:
+      - "influxdb"
     entrypoint:
       - chronograf
       - --influxdb-url=http://influxdb.livenowhy.com
+
+  telegraf:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/telegraf:1.16
+    container_name: telegraf
+    network_mode: "bridge"
+    ports:
+      - 8125:8125
+      - 8092:8092
+      - 8094:8094
+    depends_on:
+      - "influxdb"
+    extra_hosts:
+      influxdb.livenowhy.com: 10.2.56.162
+    volumes:
+      - /share/notebook/automate/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
 
 
 # docker-compose stop & docker-compose rm -f
