@@ -43,7 +43,20 @@ services:
     extra_hosts:
       influxdb.livenowhy.com: 10.2.56.162
     volumes:
-      - /share/notebook/automate/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+      - /share/notebook/automate/tigk/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+
+  kapacitor:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/kapacitor:1.5
+    container_name: kapacitor
+    network_mode: "bridge"
+    ports:
+      - 9092:9092
+    depends_on:
+      - "influxdb"
+    environment:
+      KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb.livenowhy.com
+    extra_hosts:
+      influxdb.livenowhy.com: 10.2.56.162
 
 
 # docker-compose stop & docker-compose rm -f
