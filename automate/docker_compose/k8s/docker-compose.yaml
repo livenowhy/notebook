@@ -37,7 +37,7 @@ services:
       remote_storage_adapter.livenowhy.com: 10.2.56.162
 
   grafana:
-    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/grafana:lastest
+    image:  registry.cn-zhangjiakou.aliyuncs.com/livenowhy/grafana:6.0.2
     container_name: grafana
     network_mode: "bridge"
     environment:
