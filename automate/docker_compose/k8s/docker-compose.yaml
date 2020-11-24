@@ -74,16 +74,6 @@ services:
       node_exporter.livenowhy.com: 10.2.56.162
       api.livenowhy.com: 10.2.56.162
 
-  influxdb:
-    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/influxdb:lastest
-    container_name: influxdb
-    network_mode: "bridge"
-    ports:
-      - 8086:8086
-    extra_hosts:
-      prometheus.livenowhy.com: 10.2.56.162
-      api.livenowhy.com: 10.2.56.162
-
   remote_storage_adapter:
     image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/remote_storage_adapter:lastest
     container_name: remote_storage_adapter

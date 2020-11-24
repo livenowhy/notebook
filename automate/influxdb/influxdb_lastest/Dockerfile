@@ -1,2 +1,2 @@
-FROM registry.cn-zhangjiakou.aliyuncs.com/livenowhy/influxdb:1.8
+FROM registry.cn-zhangjiakou.aliyuncs.com/livenowhy/influxdb:2.0
 MAINTAINER livenowhy <livenowhy@hotmail.com>

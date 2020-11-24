@@ -1,0 +1,35 @@
+version: '3.3'
+services:
+  influxdb:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/influxdb:lastest
+    container_name: influxdb
+    network_mode: "bridge"
+    ports:
+      - 8086:8086
+    extra_hosts:
+      prometheus.livenowhy.com: 10.2.56.162
+      api.livenowhy.com: 10.2.56.162
+    environment:
+      INFLUXDB_ADMIN_USER: admin
+      INFLUXDB_ADMIN_PASSWORD: admin
+      INFLUXDB_USER: telegraf
+      INFLUXDB_USER_PASSWORD: telegraf
+
+  chronograf:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/chronograf:1.8
+    container_name: chronograf
+    network_mode: "bridge"
+    ports:
+      - 8888:8888
+    extra_hosts:
+      influxdb.livenowhy.com: 10.2.56.162
+    entrypoint:
+      - chronograf
+      - --influxdb-url=http://influxdb.livenowhy.com
+
+
+# docker-compose stop & docker-compose rm -f
+# docker-compose up -d
+# docker ps -a --no-trunc
+# 10.2.56.162 本机ip 本地执行 node_exporter 启动 node_exporter
+# docker run -d -p 9090:9090 --name prometheus  registry.cn-zhangjiakou.aliyuncs.com/livenowhy/prometheus:2.22.0
