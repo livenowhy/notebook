@@ -13,3 +13,5 @@
   `2` alertmanager alertmanager v0.15.3 版本的基础镜像
   
     registry.cn-zhangjiakou.aliyuncs.com/livenowhy/alertmanager:lastest
+  
+  `3` monitor 监控解决方案

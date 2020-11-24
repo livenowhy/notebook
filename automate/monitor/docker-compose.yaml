@@ -7,7 +7,6 @@ services:
     ports:
       - 8086:8086
     extra_hosts:
-      prometheus.livenowhy.com: 10.2.56.162
       api.livenowhy.com: 10.2.56.162
     environment:
       INFLUXDB_DB: telegraf
@@ -43,7 +42,7 @@ services:
     extra_hosts:
       influxdb.livenowhy.com: 10.2.56.162
     volumes:
-      - /share/notebook/automate/tigk/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+      - /share/notebook/automate/monitor/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
 
   kapacitor:
     image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/kapacitor:1.5
@@ -57,7 +56,6 @@ services:
       KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb.livenowhy.com
     extra_hosts:
       influxdb.livenowhy.com: 10.2.56.162
-
 
 # docker-compose stop & docker-compose rm -f
 # docker-compose up -d
