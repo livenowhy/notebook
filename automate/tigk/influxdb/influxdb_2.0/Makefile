@@ -1,6 +1,6 @@
 all: push
 
-TAG = lastest
+TAG = 2.0
 PREFIX = registry.cn-zhangjiakou.aliyuncs.com
 IMAGE_NAME = livenowhy/influxdb
 CONTAINER_NAME = influxdb
@@ -14,7 +14,6 @@ push: container
 
 clean:
 	docker rmi -f ${PREFIX}/${IMAGE_NAME}:${TAG} || true
-
 
 run: rm
 	docker run --name=${CONTAINER_NAME} -d -p 8086:8086 -p 2003:2003 -e INFLUXDB_GRAPHITE_ENABLED=true ${PREFIX}/${IMAGE_NAME}:${TAG}
