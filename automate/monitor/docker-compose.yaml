@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   influxdb:
-    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/influxdb:lastest
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/influxdb:2.0
     container_name: influxdb
     network_mode: "bridge"
     ports:

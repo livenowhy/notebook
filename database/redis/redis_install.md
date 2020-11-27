@@ -1,12 +1,12 @@
 # redis 按照及配置
 
 ## 安装
+
     # yum install redis -y
 
 ## 设置开机启动
 
     # chkconfig redis on 或者 systemctl enable redis.service
-
 
 ## 修改配置文件
 
@@ -25,15 +25,15 @@
     127.0.0.1:6379> auth xxxx (密码验证)
     127.0.0.1:6379> select 1  选择库
 
+## 特殊命令
 
-#### redis清空数据
-
-    清除所有库所有key数据: flushall
-    清除单个库所有key数据: flushdb
-
-#### Redis Client List 命令用于返回所有连接到服务器的客户端信息和统计数据
-
-    :6379> CLIENT LIST
+    :6379> CLIENT LIST  ; 命令用于返回所有连接到服务器的客户端信息和统计数据
+    
+    远程服务控
+    info：提供服务器的信息和统计
+    monitor：实时转储收到的请求
+    slaveof：改变复制策略设置
+    config：在运行时配置Redis服务器
 
 
 #### 对value操作的命令
@@ -118,9 +118,3 @@
     lastsave：返回上次成功将数据保存到磁盘的Unix时戳
     shundown：将数据同步保存到磁盘，然后关闭服务
 
-#### 远程服务控
-
-    info：提供服务器的信息和统计
-    monitor：实时转储收到的请求
-    slaveof：改变复制策略设置
-    config：在运行时配置Redis服务器
