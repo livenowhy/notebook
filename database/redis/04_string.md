@@ -1,17 +1,12 @@
-# string
+# string 数据类型操作
 
 ## 
 
 
-# String 数据类型
+# String 
 
  `1` SET/GET/APPEND/STRLEN
 
-    # redis-cli   # 执行 Redis 客户端工具
-    
-    127.0.0.1:6379> exists mykey                 # 判断该键是否存在,存在返回1, 否则返回0
-    (integer) 0
-    
     127.0.0.1:6379> append mykey "hello"         # 该键并不存在, 因此 append 命令返回当前 Value 的长度
     (integer) 5
     
@@ -75,25 +70,13 @@
   `4` SETEX (设置过期时间)
   
     127.0.0.1:6379> setex mykey 10 "hello"         # 设置指定Key的过期时间为10秒。
-    OK  
-      
-    # 通过ttl命令查看一下指定Key的剩余存活时间(秒数)，0表示已经过期，-1表示永不过期。
-    127.0.0.1:6379> ttl mykey
-    (integer) 4
-    
+
+
     127.0.0.1:6379> get mykey                      # 在该键的存活期内我们仍然可以获取到它的Value。
     "hello"
     
-    redis 127.0.0.1:6379> ttl mykey                # 该ttl命令的返回值显示，该Key已经过期。
-    (integer) 0
-    
-    redis 127.0.0.1:6379> get mykey                # 获取已过期的Key将返回nil。
-    (nil)
     
   `5` SETNX
-    
-    127.0.0.1:6379> del mykey                      # 删除该键, 以便于下面的测试验证
-    (integer) 1
     
     127.0.0.1:6379> setnx mykey "hello"            # 该键并不存在, 因此该命令执行成功
     (integer) 1
