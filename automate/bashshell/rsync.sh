@@ -16,4 +16,8 @@ do_loop_rsync(){
 do_rsync
 do_loop_rsync
 
-#
+# vim /share/rsyncd.passwd
+# J2V8h6MsRwzy
+# chmod 600 /share/rsyncd.passwd
+
+# ln -s /share/notebook/automate/bashshell/rsync.sh /share/rsync.sh
