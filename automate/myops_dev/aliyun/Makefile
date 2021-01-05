@@ -14,7 +14,8 @@ push: container
 	docker push registry.cn-beijing.aliyuncs.com/glodon-common/myops:${TAG}
 
 clean:
-	docker rmi -f $(PREFIX):$(TAG) || true
+	docker rmi -f ${PREFIX}/${IMAGE_NAME}:${TAG} || true
+	docker rmi -f registry.cn-beijing.aliyuncs.com/glodon-common/myops:${TAG} || true
 
 
 # CentOS基础镜像制作
