@@ -85,7 +85,6 @@ services:
       - --influxdb.retention-policy=autogen
     ports:
       - 9909:9201
-    # ./remote_storage_adapter --influxdb-url=http://influxdb.livenowhy.com --influxdb.database=prometheus --influxdb.retention-policy=autogen
     extra_hosts:
       influxdb.livenowhy.com: 10.2.56.162
   # 9201 端口是 remote_storage_adapter 默认监听的端口

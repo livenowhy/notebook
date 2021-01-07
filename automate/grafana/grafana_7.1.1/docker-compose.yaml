@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  grafana:
+    image:  registry.cn-zhangjiakou.aliyuncs.com/livenowhy/grafana:7.1.1
+    container_name: grafana
+    network_mode: "bridge"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    ports:
+      - 3000:3000
+    extra_hosts:
+      prometheus.livenowhy.com: 10.2.56.162
+
+# docker-compose stop & docker-compose rm -f
+# docker-compose up -d
+# docker ps -a --no-trunc
