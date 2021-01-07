@@ -11,8 +11,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "myops8639"
       MYSQL_DATABASE: cmdb
-#      MYSQL_USER: root
-#      MYSQL_PASSWORD: "123456"
 
   mysql_02:
     image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/mysql:5.6
@@ -25,8 +23,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "myops12345"
       MYSQL_DATABASE: cmdb
-#      MYSQL_USER: root
-#      MYSQL_PASSWORD: "123456"
+
   redis:
     image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/redis:6.0.base
     container_name: db_redis
@@ -47,15 +44,9 @@ services:
       - 5671:5671
     volumes:
       - /dbdata/rabbitmq:/var/lib/rabbitmq
-  #    environment:
-  #      RABBITMQ_DEFAULT_PASS: "myops8639"
-  #      RABBITMQ_DEFAULT_USER: cmdb
-
 
 # mkdir -p /dbdata/mysql/01/data
 # mkdir -p /dbdata/mysql/02/data
 # mkdir -p /dbdata/rabbitmq
 # chmod -R a+wr /dbdata/mysql
 # chmod -R a+wr /dbdata/rabbitmq
-
-# user: root, port: 3308, password: myops12345
