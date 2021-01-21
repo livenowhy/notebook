@@ -6,6 +6,6 @@ global:
   scrape_timeout:      10s # scrape_timeout is set to the global default (10s).
 
 remote_read:
-  - url: "http://remote_storage_adapter.livenowhy.com/read"
+  - url: "http://api.livenowhy.com:9201/read"
 
 # http://chenzhijun.me/2018/06/09/prometheus-storage-influxdb/

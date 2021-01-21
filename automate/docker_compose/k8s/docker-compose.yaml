@@ -29,6 +29,7 @@ services:
     volumes:
       - /share/notebook/automate/prometheus/read/prometheus.yml:/etc/prometheus/prometheus.yml
     extra_hosts:
+      api.livenowhy.com: 10.2.56.162
       node_exporter.livenowhy.com: 10.2.56.162
       alertmanager.livenowhy.com: 10.2.56.162
       influxdb.livenowhy.com: 10.2.56.162
@@ -66,19 +67,17 @@ services:
       - 8086:8086
       - 2003:2003
 
-#  remote_storage_adapter:
-#    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/remote_storage_adapter:lastest
-#    container_name: remote_storage_adapter
-#    network_mode: "bridge"
-#    entrypoint:
-#      - /bin/remote_storage_adapter
-#      - --influxdb-url=http://influxdb.livenowhy.com
-#      - --influxdb.database=prometheus
-#      - --influxdb.retention-policy=autogen
-#    ports:
-#      - 9909:9201
-#    extra_hosts:
-#      influxdb.livenowhy.com: 10.2.56.162
+  remote_storage_adapter:
+    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/remote_storage_adapter:lastest
+    container_name: remote_storage_adapter
+    network_mode: "bridge"
+    entrypoint:
+      - /bin/remote_storage_adapter
+      - --influxdb-url=http://10.2.56.162:8086  # influxdb 的地址,使用域名存在问题
+      - --influxdb.database=prometheus
+      - --influxdb.retention-policy=autogen
+    ports:
+      - 9201:9201
   # 9201 端口是 remote_storage_adapter 默认监听的端口
 
 # docker-compose stop & docker-compose rm -f
