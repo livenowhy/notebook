@@ -15,20 +15,6 @@ services:
       - /share/notebook/automate/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
       - /share/notebook/automate/prometheus/config/rules.yml:/etc/prometheus/rules.yml
     extra_hosts:
-      node_exporter.livenowhy.com: 10.2.56.162
-      alertmanager.livenowhy.com: 10.2.56.162
-      influxdb.livenowhy.com: 10.2.56.162
-      remote_storage_adapter.livenowhy.com: 10.2.56.162
-
-  prometheus_read:
-    image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/prometheus:read
-    container_name: prometheus_read
-    network_mode: "bridge"
-    ports:
-      - 9099:9090
-    volumes:
-      - /share/notebook/automate/prometheus/read/prometheus.yml:/etc/prometheus/prometheus.yml
-    extra_hosts:
       api.livenowhy.com: 10.2.56.162
       node_exporter.livenowhy.com: 10.2.56.162
       alertmanager.livenowhy.com: 10.2.56.162

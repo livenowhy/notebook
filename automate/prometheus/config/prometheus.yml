@@ -9,9 +9,10 @@ global:
   # scrape_timeout:      抓取超时时间
 
   # 当 Prometheus 和外部系统(远程存储, Alertmanager)通信的时候,添加标签到任意的时间序列或者报警
-  external_labels:
-    cluster: prometheus-dev
-    datasource: node_exporter
+  # (加上之后查询 prometheus 时sql语句被加上相应标签，导致无法查询到数据)
+#  external_labels:
+#    cluster: prometheus-dev
+#    datasource: node_exporter
 
 # Alertmanager configuration; Alertmanager相关的配置
 alerting:
@@ -68,9 +69,10 @@ scrape_configs:
 
 
 remote_write:
-  - url: "http://remote_storage_adapter.livenowhy.com/write"
+  - url: "http://api.livenowhy.com:9201/write"
+
 remote_read:
-  - url: "http://remote_storage_adapter.livenowhy.com/read"
+  - url: "http://api.livenowhy.com:9201/read"
 
 # remote_write、remote_read 配置远端存储
 # 长期存储 prometheus 的监控数据，可以选择 influxdb 作为 remote storage
