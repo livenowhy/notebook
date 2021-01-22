@@ -20,6 +20,9 @@ services:
       alertmanager.livenowhy.com: 10.2.56.162
       influxdb.livenowhy.com: 10.2.56.162
       remote_storage_adapter.livenowhy.com: 10.2.56.162
+    depends_on:
+      - remote_storage_adapter
+      - influxdb
 
   grafana:
     image:  registry.cn-zhangjiakou.aliyuncs.com/livenowhy/grafana:6.0.2
@@ -52,6 +55,8 @@ services:
     ports:
       - 8086:8086
       - 2003:2003
+    environment:
+      INFLUXDB_DB: prometheus
 
   remote_storage_adapter:
     image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/remote_storage_adapter:lastest
@@ -64,6 +69,9 @@ services:
       - --influxdb.retention-policy=autogen
     ports:
       - 9201:9201
+    depends_on:
+      - influxdb
+  # ./remote_storage_adapter --influxdb-url=http://10.2.56.162:8086 --influxdb.database=prometheus --influxdb.retention-policy=autogen
   # 9201 端口是 remote_storage_adapter 默认监听的端口
 
 # docker-compose stop & docker-compose rm -f
