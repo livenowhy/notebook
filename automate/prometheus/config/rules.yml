@@ -25,3 +25,15 @@ groups:
       description: "{{$labels.instance}}: Memory usage is above 80% (current value is: {{ $value }}"
       value: "{{ $value }}"
       message: "宿主机内存使用率超过60%."
+
+  - alert: memory_freespace_acs_ecs_dashboard
+    expr: sum (memory_freespace_acs_ecs_dashboard) by (instanceId) > 1000
+    for: 1m
+    labels:
+      name: Memory
+      severity: critical
+    annotations:
+      summary: "{{$labels.instanceId}}: High Memory usage detected"
+      description: "{{$labels.instanceId}}: Memory usage is above 80% (current value is: {{ $value }}"
+      value: "{{ $value }}"
+      message: "云监控ecs内存使用率超过60%."
