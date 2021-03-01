@@ -1,0 +1,20 @@
+celery==3.1.26.post2
+Django==2.2
+redis==2.10.6  # celery 要求的版本
+mysqlclient==2.0.1
+xlwt==1.3.0
+xlrd==1.2.0
+urllib3==1.24.3
+requests==2.20.1
+influxdb==5.3.1
+
+acm-sdk-python==0.4.11
+aliyun-python-sdk-cms==7.0.4
+aliyun-python-sdk-core==2.13.15
+aliyun-python-sdk-dyvmsapi==3.0.2
+aliyun-python-sdk-ram==3.2.0
+aliyun-python-sdk-sts==3.0.2
+aliyun-python-sdk-tag==1.0.1
+aliyun-python-sdk-vpc==3.0.8
+pika==1.0.0
+
