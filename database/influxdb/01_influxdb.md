@@ -32,7 +32,7 @@
     $ insert disk_free,hostname=server01 value=442221834240i  (,前后没有空格)
     其中 disk_free 就是表名, hostname 是索引(tag), value=xx 是记录值(field), 记录值可以有多个,系统自带追加时间戳;
     或者添加数据时,自己写入时间戳
-    $ insert disk_free,hostname=server01 value=442221834240i 1435362189575692182
+    $ insert disk_free, hostname=server01 value=442221834240i 1435362189575692182
     
     insert disk_free_demo,__name__=disk_free_demo,appname=node_exporter,device=dm-0,host=livenowhy,instance=node_exporter.livenowhy.com:80,job=node_exporter,user=guest value=442221834240i  (,前后没有空格)
 
