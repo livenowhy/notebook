@@ -1,7 +1,7 @@
 # my global config
 # 全局配置
 global:
-  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  scrape_interval:     10s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
   evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
   scrape_timeout:      10s # scrape_timeout is set to the global default (10s).
   # scrape_interval:     抓取间隔
@@ -65,8 +65,21 @@ scrape_configs:
         action: labeldrop
       - regex: 'job'
         action: labeldrop
-# 数据收集支持, basic_auth: HTTP basic 认证信息; 数据源中可以配置认证信息
 
+  - job_name: 'huaweimetrics'
+    # 标签冲突, true 为以抓取的数据为准并忽略服务器中的; false 为通过重命名来解决冲突
+    honor_labels: true
+    metrics_path: '/app/metrics/metrics'
+    static_configs:
+    - targets: ['corevm.livenowhy.com:8088']
+      labels:
+        appname: 'huaweimetrics'
+    metric_relabel_configs:
+      - regex: 'appname'
+        action: labeldrop
+      - regex: 'job'
+        action: labeldrop
+# 数据收集支持, basic_auth: HTTP basic 认证信息; 数据源中可以配置认证信息
 
 remote_write:
   - url: "http://api.livenowhy.com:9201/write"

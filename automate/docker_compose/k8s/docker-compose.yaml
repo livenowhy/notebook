@@ -19,6 +19,7 @@ services:
       node_exporter.livenowhy.com: 10.2.56.162
       alertmanager.livenowhy.com: 10.2.56.162
       influxdb.livenowhy.com: 10.2.56.162
+      corevm.livenowhy.com: 10.2.56.162
       remote_storage_adapter.livenowhy.com: 10.2.56.162
     depends_on:
       - remote_storage_adapter
