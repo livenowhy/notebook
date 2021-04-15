@@ -12,6 +12,7 @@
     $ cd node_exporter-1.0.1.linux-amd64
     $ cp node_exporter /usr/bin/.
     $ node_exporter
+    $ nohup node_exporter &
     以上已经可以运行
     
     (配置 9100 端口可以直接被域名 corevm.livenowhy.com:9100 访问)
