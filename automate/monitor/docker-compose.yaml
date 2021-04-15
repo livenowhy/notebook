@@ -7,7 +7,7 @@ services:
     ports:
       - 8086:8086
     extra_hosts:
-      api.livenowhy.com: 10.2.56.162
+      corevm.livenowhy.com: 10.2.56.162
     environment:
       INFLUXDB_DB: telegraf
       INFLUXDB_ADMIN_USER: admin
@@ -22,12 +22,12 @@ services:
     ports:
       - 8888:8888
     extra_hosts:
-      influxdb.livenowhy.com: 10.2.56.162
+      corevm.livenowhy.com: 10.2.56.162
     depends_on:
       - "influxdb"
     entrypoint:
       - chronograf
-      - --influxdb-url=http://influxdb.livenowhy.com
+      - --influxdb-url=http://corevm.livenowhy.com:8086
 
   telegraf:
     image: registry.cn-zhangjiakou.aliyuncs.com/livenowhy/telegraf:1.16
@@ -40,7 +40,7 @@ services:
     depends_on:
       - "influxdb"
     extra_hosts:
-      influxdb.livenowhy.com: 10.2.56.162
+      corevm.livenowhy.com: 10.2.56.162
     volumes:
       - /share/notebook/automate/monitor/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
 
@@ -53,9 +53,9 @@ services:
     depends_on:
       - "influxdb"
     environment:
-      KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb.livenowhy.com
+      KAPACITOR_INFLUXDB_0_URLS_0: http://corevm.livenowhy.com:8086
     extra_hosts:
-      influxdb.livenowhy.com: 10.2.56.162
+      corevm.livenowhy.com: 10.2.56.162
 
 # docker-compose stop & docker-compose rm -f
 # docker-compose up -d

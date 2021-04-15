@@ -9,7 +9,7 @@ services:
     ports:
       - 3000:3000
     extra_hosts:
-      prometheus.livenowhy.com: 10.2.56.162
+      corevm.livenowhy.com: 10.2.56.162
 
 # docker-compose stop & docker-compose rm -f
 # docker-compose up -d
