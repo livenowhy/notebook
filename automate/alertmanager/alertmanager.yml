@@ -21,6 +21,6 @@ receivers:
   webhook_configs:
   - send_resolved: true
     http_config: {}
-    url: http://api.livenowhy.com/app/open/alert/relation/post
+    url: http://corevm.livenowhy.com:8088/app/open/alert/relation/post
 templates:
 - /etc/alertmanager/template/*.tmpl

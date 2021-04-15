@@ -25,7 +25,7 @@
     因为 prometheus 配置 pushgateway 的时候,也会指定 job 和 instance, 但是它只表示pushgateway实例, 不能真正表达收集数据的含义。
     所以配置 pushgateway 需要添加 honor_labels:true, 避免收集数据本身的 job 和 instance 被覆盖。
     注意: 为了防止 pushgateway 重启或意外挂掉，导致数据丢失，可以通过 -persistence.file 和 -persistence.interval 参数将数据持久化下来。
-    访问 http://pushgateway.livenowhy.com/metrics 可以看到 pushgateway 自身的指标
+    访问 http://corevm.livenowhy.com:9091/metrics 可以看到 pushgateway 自身的指标
 
 ## API 方式 Push 数据到 PushGateway
 
@@ -34,8 +34,8 @@
     其中 <JOBNAME> 是必填项，为 job 标签值，后边可以跟任意数量的标签对，一般我们会添加一个 instance/<INSTANCE_NAME> 实例名称标签，来方便区分各个指标。
     
     接下来，可以 Push 一个简单的指标数据到 PushGateway 中测试一下。
-    $ echo "test_metric 2323" | curl --data-binary @- http://pushgateway.livenowhy.com/metrics/job/test_job
-    $ echo "test_metric 2323" | curl --data-binary @- http://pushgateway.livenowhy.com/metrics/job/test_job/instance/demo01
+    $ echo "test_metric 2323" | curl --data-binary @- http://corevm.livenowhy.com:9091/metrics/job/test_job
+    $ echo "test_metric 2323" | curl --data-binary @- http://corevm.livenowhy.com:9091/metrics/job/test_job/instance/demo01
     
     执行完毕，刷新一下 PushGateway UI 页面，此时就能看到刚添加的 test_metric 指标数据了。
     需要注意: 使用这种方法，如果使用相同的job名 ，后面插入的数据会覆盖掉之前的
@@ -49,11 +49,11 @@
   
     这里要着重提一下的是:
     上图中 test_metric 我们查询出来的结果为:
-    test_metric{appname="pushgateway",exported_instance="demo01",exported_job="test_job",instance="pushgateway.livenowhy.com:80",job="pushgateway"}。
+    test_metric{appname="pushgateway",exported_instance="demo01",exported_job="test_job",instance="corevm.livenowhy.com:9091",job="pushgateway"}。
 
     这次，我们 Push 一个复杂一些的，一次写入多个指标，而且每个指标添加 TYPE 及 HELP 说明。
 
-    $ cat <<EOF | curl --data-binary @- http://pushgateway.livenowhy.com/metrics/job/test_job/instance/test_instance
+    $ cat <<EOF | curl --data-binary @- http://corevm.livenowhy.com:9091/metrics/job/test_job/instance/test_instance
     # TYPE test_metrics counter
     test_metrics{label="app1",name="demo"} 100.00
     # TYPE another_test_metrics gauge
@@ -65,12 +65,12 @@
 ## 使用 PushGateway 注意事项
     1、指标值只能是数字类型，非数字类型报错
     
-    $ echo "test_metric 12ff" | curl --data-binary @- http://pushgateway.livenowhy.com/metrics/job/test_job_1
+    $ echo "test_metric 12ff" | curl --data-binary @- http://corevm.livenowhy.com:9091/metrics/job/test_job_1
     text format parsing error in line 1: expected float as value, got "12ff"
     
     2、指标值支持最大长度为 16 位，超过16 位后默认置为 0
     
-    $ echo "test_metric 1234567898765432123456789" | curl --data-binary @- pushgateway.livenowhy.com/metrics/job/test_job_2
+    $ echo "test_metric 1234567898765432123456789" | curl --data-binary @- corevm.livenowhy.com:9091/metrics/job/test_job_2
     # 实际获取值 test_metric{job="test_job_2"}	1234567898765432200000000
 
     3、PushGateway 数据持久化操作

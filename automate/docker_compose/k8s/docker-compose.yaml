@@ -15,7 +15,6 @@ services:
       - /share/notebook/automate/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
       - /share/notebook/automate/prometheus/config/rules.yml:/etc/prometheus/rules.yml
     extra_hosts:
-      api.livenowhy.com: 10.2.56.162
       corevm.livenowhy.com: 10.2.56.162
     depends_on:
       - remote_storage_adapter

@@ -10,6 +10,9 @@
     9201 remote_storage_adapter
     4369 5671 5672 15672 25672 rabbitmq 
     9100 node_exporter
+    8088 api
+    9099 prometheus_read
+    9091 pushgateway
 
      
 
