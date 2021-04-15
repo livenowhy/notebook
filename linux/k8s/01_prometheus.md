@@ -14,7 +14,7 @@
     $ node_exporter
     以上已经可以运行
     
-    (配置 9100 端口可以直接被域名 node_exporter.livenowhy.com 访问)
+    (配置 9100 端口可以直接被域名 corevm.livenowhy.com:9100 访问)
     
 ## 参考文件
 

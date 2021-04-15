@@ -49,22 +49,9 @@ scrape_configs:
 
   - job_name: 'node_exporter'
     static_configs:
-    - targets: ['node_exporter.livenowhy.com']
+    - targets: ['corevm.livenowhy.com:9100']
       labels:
         appname: 'node_exporter'
-
-  - job_name: 'pushgateway'
-    # 标签冲突, true 为以抓取的数据为准并忽略服务器中的; false 为通过重命名来解决冲突
-    honor_labels: true
-    static_configs:
-    - targets: ['pushgateway.livenowhy.com']
-      labels:
-        appname: 'pushgateway'
-    metric_relabel_configs:
-      - regex: 'appname'
-        action: labeldrop
-      - regex: 'job'
-        action: labeldrop
 
   - job_name: 'huaweimetrics'
     # 标签冲突, true 为以抓取的数据为准并忽略服务器中的; false 为通过重命名来解决冲突
@@ -79,13 +66,15 @@ scrape_configs:
         action: labeldrop
       - regex: 'job'
         action: labeldrop
+      - regex: 'instance'
+        action: labeldrop
 # 数据收集支持, basic_auth: HTTP basic 认证信息; 数据源中可以配置认证信息
 
 remote_write:
-  - url: "http://api.livenowhy.com:9201/write"
+  - url: "http://corevm.livenowhy.com:9201/write"
 
 remote_read:
-  - url: "http://api.livenowhy.com:9201/read"
+  - url: "http://corevm.livenowhy.com:9201/read"
 
 # remote_write、remote_read 配置远端存储
 # 长期存储 prometheus 的监控数据，可以选择 influxdb 作为 remote storage
