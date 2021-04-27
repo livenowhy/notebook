@@ -16,11 +16,21 @@ route:
     group_wait: 10s
     group_interval: 20s
     repeat_interval: 30s
+  - receiver: webhook_default
+    group_by:
+    - severity
+    match_re:
+      severity: critical
+    group_wait: 10s
+    group_interval: 20s
+    repeat_interval: 30s
+
 receivers:
 - name: webhook_default
   webhook_configs:
   - send_resolved: true
     http_config: {}
-    url: http://corevm.livenowhy.com:8088/app/open/alert/relation/post
+#    url: http://corevm.livenowhy.com:8088/app/open/alert/relation/post
+    url: http://corevm.livenowhy.com:8088/app/alerts/info
 templates:
 - /etc/alertmanager/template/*.tmpl

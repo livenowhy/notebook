@@ -14,7 +14,7 @@ groups:
       value: "{{ $value }}"                   # 当前报警状态值
       message: "宿主机内存使用率超过80%."
 
-  - alert: NodeMemoryUsage60
+  - alert: NodeMemoryUsage40
     expr: (node_memory_MemTotal_bytes - (node_memory_MemFree_bytes+node_memory_Buffers_bytes+node_memory_Cached_bytes )) / node_memory_MemTotal_bytes * 100 > 40
     for: 1m
     labels:
@@ -24,7 +24,19 @@ groups:
       summary: "{{$labels.instance}}: High Memory usage detected"
       description: "{{$labels.instance}}: Memory usage is above 80% (current value is: {{ $value }}"
       value: "{{ $value }}"
-      message: "宿主机内存使用率超过60%."
+      message: "宿主机内存使用率超过40%."
+
+  - alert: NodeMemoryUsage50
+    expr: (node_memory_MemTotal_bytes - (node_memory_MemFree_bytes+node_memory_Buffers_bytes+node_memory_Cached_bytes )) / node_memory_MemTotal_bytes * 100 > 50
+    for: 1m
+    labels:
+      name: Memory
+      severity: critical
+    annotations:
+      summary: "{{$labels.instance}}: High Memory usage detected"
+      description: "{{$labels.instance}}: Memory usage is above 80% (current value is: {{ $value }}"
+      value: "{{ $value }}"
+      message: "宿主机内存使用率超过50%."
 
   - alert: memory_freespace_acs_ecs_dashboard
     expr: sum (memory_freespace_acs_ecs_dashboard) by (instanceId) > 1000
