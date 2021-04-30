@@ -73,7 +73,27 @@
         
       annotations:         # 告警注释
         [ <labelname>: <tmpl_string> ]   # 一般添加发送邮件的内容、标题等等。常用字段有:summary,description
+
+## 告警状态 
+
+  prometheus 的告警状态有三种，我们可以在 prometheus 的控制台页面上查看告警的状态
+
+    inactive: 没有触发任何阈值，这个是根据 scrape_interval 参数(采集数据周期)和 evaluation_interval 参数(对比规则周期)去决定的
+    pending: 已触发阈值但未满足告警持续时间,告警进入 pending 状态之后,需要等待规则配置的 for 时间,如果在这个时间内触发阈值的表达式一直成立,才会进入 firing 状态.
+    firing: 已触发阈值且满足告警持续时间,将告警从 prometheus 发送给 alertmanager, 
+            在 alertmanager 收到告警之后并不会立刻发送,还需要等待一个 group_wait 时间, 直到某个计算周期表达式为假, 告警状态变更为 inactive, 发送一个 resolve 给 altermanger, 说明此告警已解决
+
+## Prometheus一条告警是怎么触发的
+
+    1.采集数据 scrape_interval: 15s
     
+    2.比对采集到的数据是否触发阈值 evaluation_interval: 15s
+    
+    3.判断是否超出持续时间(在这个时间内一直处于触发阈值状态)for: 5s
+    
+    4.告警到达 alertmanager 然后进行分组、抑制、静默
+    
+    5.通过分组、抑制、静默一系列机制的信息将会被发送，但是会延迟发送group_wait: 10s
 
 
 ## 参考文件

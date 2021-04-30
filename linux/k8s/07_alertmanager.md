@@ -40,7 +40,10 @@
       # 如果警报不包含 EndsAt, 则 ResolveTimeout 是 Alertmanager 使用的默认值, 经过此时间后,如果尚未更新,则可以将警报声明为已解决.
       # 这对 Prometheus 的警报没有影响，因为它们始终包含 EndsAt.
       [ resolve_timeout: <duration> | default = 5m ]
-    
+      
+    在全局配置中需要注意的是 resolve_timeout, 该参数定义了当 Alertmanager 持续多长时间未接收到告警后标记告警状态为 resolved(已解决)。
+    该参数的定义可能会影响到告警恢复通知的接收时间, 读者可根据自己的实际场景进行定义, 其默认值为5分钟。
+
     # 定义通知模板, 最好一个列表元素可以使用 Linux 通配符, 如 *.tmpl
     templates:
       [ - <filepath> ... ]
@@ -89,6 +92,7 @@
     # 子路由
     routes:
       [ - <route> ... ]
+
  
 ## 告警抑制(inhibit_rules)配置
   告警抑制是针对,系统已经发出A告警,对后续出现的由A告警引发的B告警进行抑制。
@@ -106,3 +110,27 @@
     source_match_re:
       [ <labelname>: <regex>, ... ]
     [ equal: '[' <labelname>, ... ']' ]
+    
+    
+## 配置文件
+
+    global:
+      resolve_timeout: 5m    # 恢复的超时时间,这个跟告警恢复通知有关,此参数并不是说在这个时间没有收到告警就会恢复
+    
+    route:
+      group_by: ['alertname']    # 默认以告警名进行分组,就是rule文件的alert值进行分组
+      group_wait: 10s            # 发送警报前，至少等待多少秒才会发送(为了收集同组更多的警报信息一起发送)
+      group_interval: 10s        # 如果警报1已经发送,这时又出现同组的警报2,由于组状态发生变化,警报会在group_interval这个时间内发送,不会被repeat_interval这个时间收敛
+      repeat_interval: 20m       # 报警信息已发送，但事件并没有恢复,则等待多久时间再重新发送(生产环境一般设成20min或者30min)
+      receiver: 'web.hook'       # 发送警报的接收者名称,如果一个报警没有被一个route匹配,则发送给默认的接收器
+      
+    receivers:    # 发送告警信息给那个接收者
+      - name: 'web.hook'    # 这个需要和上面定义的接收者名称一致
+        webhook_configs:
+        - url: 'http://127.0.0.1:5001/'
+    inhibit_rules:    # 抑制规则,防止告警风暴
+      - source_match:
+        severity: 'critical'
+        target_match:
+        severity: 'warning'
+        equal: ['alertname', 'dev', 'instance']
