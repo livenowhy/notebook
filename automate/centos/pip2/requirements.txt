@@ -1,4 +1,4 @@
-eventlet==0.25.0
+eventlet==0.31.0
 oslo.config==2.4.0
 Paste==1.7.5.1
 PasteDeploy==1.5.2
